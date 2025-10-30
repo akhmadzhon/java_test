@@ -33,9 +33,12 @@
 <script>
   // список URL дашбордов
   const urls = [
-    "https://analytics.wfp.org/t/Public/views/TajikistanMarketUpdate_September15-21_2025/TajikistanMarketPriceUpdate?:embed=y&:iid=1&:isGuestRedirectFromVizportal=y&:device=desktop&:toolbar=no&:tabs=no&:showVizHome=no",
+    "https://analytics.wfp.org/t/Public/views/TajikistanMarketUpdate_September15-21_2025/TajikistanMarketPriceUpdate?%3Aembed=y&%3Aiid=1&%3AisGuestRedirectFromVizportal=y%22,
+    "https://storymaps.arcgis.com/stories/348d00cd34bb45b4897abcf14a7b329e",
     "https://unwfp.maps.arcgis.com/apps/Cascade/index.html?appid=1e262af203064241b087c64a7a399d35",
-    "https://analytics.wfp.org/t/Public/views/CCARB-ActivitiesTargetingandMonitoring/CCARB-ActivitiesTargetingandMonitoring?:embed=y&:iid=1&:isGuestRedirectFromVizportal=y&:device=desktop&:toolbar=no&:tabs=no&:showVizHome=no"
+    "https://analytics.wfp.org/#/views/Processmonitoring-Dashboard/Dashboard_PM?=null&:iid=2",
+    "https://analytics.wfp.org/t/Public/views/CCARB-ActivitiesTargetingandMonitoring/CCARB-ActivitiesTargetingandMonitoring?%3Aembed=y&%3Aiid=1&%3AisGuestRedirectFromVizportal=y%22,
+    "https://analytics.wfp.org/#/views/CFMDashboardTajikistan/Overview?:iid=1"
   ];
 
   const DESIGN_W = 1366, DESIGN_H = 768;
@@ -59,7 +62,8 @@
 
   fit();
   rotate();                       // показать первый дашборд
-  setInterval(rotate, 60000);     // менять каждые 60 сек
+  setInterval(rotate, 10000);     // менять каждые 60 сек
 </script>
 </body>
 </html>
+
