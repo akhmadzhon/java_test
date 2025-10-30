@@ -6,42 +6,60 @@
 <style>
   html, body {margin:0;padding:0;background:#000;overflow:hidden;height:100%;width:100%;}
   #wrap {position:absolute;top:50%;left:50%;transform-origin:top left;background:#000;}
-  iframe {border:none;width:1920px;height:1080px;display:block;}
+  iframe {border:none;display:block;}
 </style>
 </head>
 <body>
 <div id="wrap"><iframe id="frame" src=""></iframe></div>
 
 <script>
-  // ПОЧИНЕННЫЕ URL + desktop layout
+  // URLs (добавил параметры для Tableau)
   const urls = [
-    "https://analytics.wfp.org/t/Public/views/TajikistanMarketUpdate_September15-21_2025/TajikistanMarketPriceUpdate?:embed=y&:iid=1&:isGuestRedirectFromVizportal=y&:device=desktop&:toolbar=no&:tabs=no",
+    // 1) Tableau Market Update — часто макет ~1600×900
+    "https://analytics.wfp.org/t/Public/views/TajikistanMarketUpdate_September15-21_2025/TajikistanMarketPriceUpdate?:embed=y&:device=desktop&:toolbar=no&:tabs=no&:showVizHome=no",
+    // 2) ArcGIS Cascade
     "https://unwfp.maps.arcgis.com/apps/Cascade/index.html?appid=1e262af203064241b087c64a7a399d35",
-    "https://analytics.wfp.org/t/Public/views/CCARB-ActivitiesTargetingandMonitoring/CCARB-ActivitiesTargetingandMonitoring?:embed=y&:iid=1&:isGuestRedirectFromVizportal=y&:device=desktop&:toolbar=no&:tabs=no"
+    // 3) Tableau CCARB
+    "https://analytics.wfp.org/t/Public/views/CCARB-ActivitiesTargetingandMonitoring/CCARB-ActivitiesTargetingandMonitoring?:embed=y&:device=desktop&:toolbar=no&:tabs=no&:showVizHome=no"
   ];
 
-  const DESIGN_W = 1920, DESIGN_H = 1080; // базовый размер
+  // Профили базовых размеров под каждый URL (подбираются экспериментально)
+  const sizeProfiles = [
+    { w: 1600, h: 900 },  // для 1-го (Tableau Market Update)
+    { w: 1920, h: 1080 }, // для 2-го (ArcGIS Cascade обычно полноэкранный)
+    { w: 1920, h: 1080 }  // для 3-го (Tableau CCARB ок в FHD)
+  ];
+
   const wrap = document.getElementById('wrap');
   const frame = document.getElementById('frame');
   let i = 0;
 
-  function fit() {
+  function fit(w, h){
+    // ставим «родной» размер iframe перед масштабом
+    frame.style.width  = w + 'px';
+    frame.style.height = h + 'px';
+
     const vw = window.innerWidth, vh = window.innerHeight;
-    const scale = Math.min(vw / DESIGN_W, vh / DESIGN_H);
+    const scale = Math.min(vw / w, vh / h);
     wrap.style.transform = `translate(-50%,-50%) scale(${scale})`;
-    wrap.style.width = DESIGN_W + 'px';
-    wrap.style.height = DESIGN_H + 'px';
+    wrap.style.width  = w + 'px';
+    wrap.style.height = h + 'px';
   }
-  window.addEventListener('resize', fit);
+
+  window.addEventListener('resize', () => {
+    const {w,h} = sizeProfiles[(i + urls.length - 1) % urls.length]; // текущий показанный
+    fit(w, h);
+  });
 
   function rotate() {
+    const { w, h } = sizeProfiles[i];
+    fit(w, h);
     frame.src = urls[i];
     i = (i + 1) % urls.length;
   }
 
-  fit();
-  rotate();
-  setInterval(rotate, 60000); // каждые 60 сек
+  rotate();                 // первый показ
+  setInterval(rotate, 60000); // смена каждые 60 сек
 </script>
 </body>
 </html>
