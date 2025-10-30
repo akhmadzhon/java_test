@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Dashboard Display</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    overflow: hidden;
+  }
+  iframe {
+    border: none;
+    width: 100vw;
+    height: 100vh;
+  }
+</style>
+</head>
+<body>
+<iframe id="frame" src=""></iframe>
+<script>
+  // list of URLs to show
+  const urls = [
+    "https://analytics.wfp.org/t/Public/views/TajikistanMarketUpdate_September15-21_2025/TajikistanMarketPriceUpdate?:embed=y&:iid=1&:isGuestRedirectFromVizportal=y",
+    "https://unwfp.maps.arcgis.com/apps/Cascade/index.html?appid=1e262af203064241b087c64a7a399d35",
+    "https://analytics.wfp.org/t/Public/views/CCARB-ActivitiesTargetingandMonitoring/CCARB-ActivitiesTargetingandMonitoring?:embed=y&:iid=1&:isGuestRedirectFromVizportal=y"
+  ];
+ 
+  let i = 0;
+  const frame = document.getElementById("frame");
+ 
+  function rotate() {
+    frame.src = urls[i];
+    i = (i + 1) % urls.length;
+  }
+ 
+  rotate(); // show first dashboard
+  setInterval(rotate, 60000); // change every 60 sec
+</script>
+</body>
+</html>
